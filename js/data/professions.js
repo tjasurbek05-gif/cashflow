@@ -1,0 +1,183 @@
+/* Pul Oqimi — kasblar (2025–2026 yillardagi taxminiy oʻrtacha koʻrsatkichlar asosida).
+   Manba moʻljali: stat.uz — 2026-yil I chorakda oʻrtacha oylik ish haqi ≈ 6,8 mln soʻm.
+   Raqamlar oʻyin balansi uchun yaxlitlangan; hammasi oyiga, soʻmda. */
+(function () {
+  'use strict';
+  var PO = (globalThis.PO = globalThis.PO || {});
+  PO.DATA = PO.DATA || {};
+
+  // expenses: asosiy oylik xarajatlar (kreditlar alohida — liabilities).
+  // perChild: har bir farzand uchun qoʻshimcha oylik xarajat.
+  PO.DATA.professions = [
+    {
+      id: 'farrosh',
+      nom: 'Farrosh',
+      emoji: '🧹',
+      tagline: 'Kichik maosh — lekin kichik xarajat ham. Poygadan eng tez chiqadiganlar koʻpincha shular!',
+      salary: 3200000,
+      expenses: { soliq: 384000, uyJoy: 700000, oziq: 750000, transport: 180000, kommunal: 130000, boshqa: 96000 },
+      liabilities: [],
+      perChild: 300000,
+      startCash: 2000000,
+    },
+    {
+      id: 'hamshira',
+      nom: 'Hamshira',
+      emoji: '💉',
+      tagline: 'Shifoxonada mehnat qilasiz. Orzular esa kattaroq…',
+      salary: 3900000,
+      expenses: { soliq: 468000, uyJoy: 850000, oziq: 800000, transport: 250000, kommunal: 200000, boshqa: 162000 },
+      liabilities: [],
+      perChild: 350000,
+      startCash: 2300000,
+    },
+    {
+      id: 'sotuvchi',
+      nom: 'Doʻkon sotuvchisi',
+      emoji: '🛍️',
+      tagline: 'Savdoning ichida yuribsiz — endi oʻz doʻkoningizni ochish vaqti kelmadimi?',
+      salary: 4300000,
+      expenses: { soliq: 516000, uyJoy: 950000, oziq: 850000, transport: 280000, kommunal: 220000, boshqa: 194000 },
+      liabilities: [],
+      perChild: 400000,
+      startCash: 2600000,
+    },
+    {
+      id: 'oshpaz',
+      nom: 'Oshpaz',
+      emoji: '🍲',
+      tagline: 'Oshxonada qoʻlingiz gul. Balki bir kun oʻz choyxonangiz boʻlar?',
+      salary: 4500000,
+      expenses: { soliq: 540000, uyJoy: 1000000, oziq: 900000, transport: 250000, kommunal: 230000, boshqa: 230000 },
+      liabilities: [],
+      perChild: 400000,
+      startCash: 2700000,
+    },
+    {
+      id: 'oqituvchi',
+      nom: 'Maktab oʻqituvchisi',
+      emoji: '📚',
+      tagline: 'Bilim berasiz — endi moliyaviy bilimni oʻzingizga ham qoʻllang.',
+      salary: 5200000,
+      expenses: { soliq: 624000, uyJoy: 1150000, oziq: 950000, transport: 300000, kommunal: 250000, boshqa: 426000 },
+      liabilities: [],
+      perChild: 450000,
+      startCash: 3000000,
+    },
+    {
+      id: 'haydovchi',
+      nom: 'Avtobus haydovchisi',
+      emoji: '🚌',
+      tagline: 'Har kuni yoʻldasiz. Pulingiz ham ishlasin!',
+      salary: 6000000,
+      expenses: { soliq: 720000, uyJoy: 1250000, oziq: 1000000, transport: 180000, kommunal: 260000, boshqa: 540000 },
+      liabilities: [{ id: 'istemol', nom: 'Isteʼmol krediti', balance: 8000000, payment: 400000 }],
+      perChild: 500000,
+      startCash: 3300000,
+    },
+    {
+      id: 'fermer',
+      nom: 'Fermer',
+      emoji: '🌾',
+      tagline: 'Yer bor, mehnat bor. Texnika lizingini yopib, daromadni koʻpaytiring.',
+      salary: 7500000,
+      expenses: { soliq: 900000, uyJoy: 550000, oziq: 950000, transport: 420000, kommunal: 300000, boshqa: 630000 },
+      liabilities: [{ id: 'lizing', nom: 'Texnika lizingi', balance: 70000000, payment: 1750000 }],
+      perChild: 550000,
+      startCash: 4000000,
+    },
+    {
+      id: 'muhandis',
+      nom: 'Qurilish muhandisi',
+      emoji: '🏗️',
+      tagline: 'Binolar qurasiz — endi oʻz aktivlaringizni ham "quring".',
+      salary: 8800000,
+      expenses: { soliq: 1056000, uyJoy: 0, oziq: 1100000, transport: 380000, kommunal: 320000, boshqa: 494000 },
+      liabilities: [
+        { id: 'ipoteka', nom: 'Ipoteka', balance: 160000000, payment: 2300000 },
+        { id: 'avto', nom: 'Avtokredit', balance: 50000000, payment: 1250000 },
+      ],
+      perChild: 700000,
+      startCash: 3800000,
+    },
+    {
+      id: 'shifokor',
+      nom: 'Shifokor',
+      emoji: '🩺',
+      tagline: 'Katta maosh — katta xarajat. Klassik tuzoq: koʻp topgan emas, toʻgʻri boshqargan yutadi.',
+      salary: 9500000,
+      expenses: { soliq: 1140000, uyJoy: 0, oziq: 1200000, transport: 420000, kommunal: 340000, boshqa: 700000 },
+      liabilities: [
+        { id: 'ipoteka', nom: 'Ipoteka', balance: 180000000, payment: 2600000 },
+        { id: 'avto', nom: 'Avtokredit', balance: 60000000, payment: 1500000 },
+      ],
+      perChild: 800000,
+      startCash: 3200000,
+    },
+    {
+      id: 'bank_mutaxassisi',
+      nom: 'Bank mutaxassisi',
+      emoji: '🏦',
+      tagline: 'Pul bilan ishlaysiz — endi pul siz uchun ishlasin.',
+      salary: 11000000,
+      expenses: { soliq: 1320000, uyJoy: 0, oziq: 1300000, transport: 430000, kommunal: 360000, boshqa: 640000 },
+      liabilities: [
+        { id: 'ipoteka', nom: 'Ipoteka', balance: 210000000, payment: 3000000 },
+        { id: 'avto', nom: 'Avtokredit', balance: 70000000, payment: 1750000 },
+      ],
+      perChild: 850000,
+      startCash: 4400000,
+    },
+    {
+      id: 'advokat',
+      nom: 'Advokat',
+      emoji: '⚖️',
+      tagline: 'Daromad zoʻr, lekin turmush darajasi ham "zoʻr" — xarajatlar sizni qoʻyib yubormaydi.',
+      salary: 15000000,
+      expenses: { soliq: 1800000, uyJoy: 0, oziq: 1500000, transport: 500000, kommunal: 420000, boshqa: 1480000 },
+      liabilities: [
+        { id: 'ipoteka', nom: 'Ipoteka', balance: 260000000, payment: 3800000 },
+        { id: 'avto', nom: 'Avtokredit', balance: 100000000, payment: 2500000 },
+      ],
+      perChild: 900000,
+      startCash: 6000000,
+    },
+    {
+      id: 'dasturchi',
+      nom: 'Dasturchi',
+      emoji: '💻',
+      tagline: 'IT-da maosh baland. Lekin gadjetlar, nasiya va ijara… Pul oqimini kod kabi optimallashtiring!',
+      salary: 18000000,
+      expenses: { soliq: 2160000, uyJoy: 3300000, oziq: 1700000, transport: 550000, kommunal: 470000, boshqa: 2020000 },
+      liabilities: [
+        { id: 'avto', nom: 'Avtokredit', balance: 120000000, payment: 3000000 },
+        { id: 'nasiya', nom: 'Nasiya (texnika)', balance: 40000000, payment: 1200000 },
+      ],
+      perChild: 1000000,
+      startCash: 7200000,
+    },
+    {
+      id: 'tadbirkor',
+      nom: 'Tadbirkor',
+      emoji: '💼',
+      tagline: 'Oyiga 22 mln topasiz — lekin poygadan chiqish uchun qariyb 19 mln passiv daromad kerak. Eng qiyin start!',
+      salary: 22000000,
+      expenses: { soliq: 2640000, uyJoy: 0, oziq: 1900000, transport: 650000, kommunal: 480000, boshqa: 3280000 },
+      liabilities: [
+        { id: 'ipoteka', nom: 'Ipoteka', balance: 320000000, payment: 4500000 },
+        { id: 'biznes', nom: 'Biznes krediti', balance: 350000000, payment: 5250000 },
+      ],
+      perChild: 1200000,
+      startCash: 6600000,
+    },
+  ];
+
+  PO.DATA.expenseLabels = {
+    soliq: 'Daromad soligʻi (12%)',
+    uyJoy: 'Uy-joy ijarasi',
+    oziq: 'Oziq-ovqat',
+    transport: 'Transport',
+    kommunal: 'Kommunal toʻlovlar',
+    boshqa: 'Boshqa xarajatlar',
+  };
+})();

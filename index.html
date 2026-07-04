@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pul Oqimi — moliyaviy savodxonlik oʻyini</title>
+  <meta name="description" content="Pul Oqimi — Oʻzbekiston uchun moliyaviy savodxonlik oʻyini: sichqonlar poygasidan chiqing, aktivlar yigʻing, orzuingizga erishing. Real kasblar, real aksiyalar, real hayot!">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💸</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ═══════ BOSH SAHIFA ═══════ -->
+  <div id="scr-home" class="screen active">
+    <div class="float-bg" aria-hidden="true">
+      <span>🪙</span><span>💵</span><span>🏠</span><span>📈</span><span>🪙</span><span>💰</span><span>🏦</span><span>🪙</span><span>⭐</span><span>💵</span>
+    </div>
+    <main class="hero">
+      <div class="logo-coin">💸</div>
+      <h1 class="hero-title">PUL OQIMI</h1>
+      <p class="hero-sub">Moliyaviy savodxonlik oʻyini · Oʻzbekiston</p>
+      <p class="hero-desc">Farroshdan millionergacha! «Sichqonlar poygasi»dan chiqing: aktivlar yigʻing,
+        passiv daromadingizni xarajatlardan oshiring va Tezkor yoʻlda orzuingizni amalga oshiring.
+        Real kasblar, real maoshlar, Toshkent birjasidagi real aksiyalar.</p>
+      <div class="hero-actions">
+        <button class="btn btn-gold btn-xl" id="btnNew">▶ Yangi oʻyin</button>
+        <button class="btn btn-primary btn-xl hidden" id="btnResume">Davom ettirish</button>
+        <button class="btn btn-ghost btn-xl" id="btnRules">📖 Qoidalar</button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><b>13</b><span>kasb — farroshdan tadbirkorgacha</span></div>
+        <div class="stat"><b>110+</b><span>oʻzbekcha karta va bitim</span></div>
+        <div class="stat"><b>6</b><span>real UZSE aksiyasi</span></div>
+        <div class="stat"><b>1–4</b><span>oʻyinchi, bitta qurilmada</span></div>
+      </div>
+    </main>
+    <footer class="home-foot">
+      Loyiha maqsadi — Oʻzbekiston aholisining moliyaviy savodxonligini oshirish.
+      Robert Kiyosaki «CASHFLOW®» oʻyini gʻoyalaridan ilhomlangan mustaqil taʼlimiy loyiha (rasmiy aloqasi yoʻq).
+      Raqamlar taxminiy (2025–2026, stat.uz / uzse.uz moʻljallari) — investitsiya maslahati emas.
+    </footer>
+  </div>
+
+  <!-- ═══════ OʻYIN SOZLASH ═══════ -->
+  <div id="scr-setup" class="screen">
+    <header class="topbar">
+      <span class="topbar-logo">💸 Pul Oqimi</span>
+      <button class="btn btn-ghost" onclick="location.reload()">← Bosh sahifa</button>
+    </header>
+    <main class="setup-wrap">
+      <h2>Oʻyinchilar va kasblar</h2>
+      <div id="setupBody"></div>
+      <div class="setup-foot">
+        <button class="btn btn-gold btn-xl" id="btnStart" disabled>Kasb va orzu tanlang…</button>
+      </div>
+    </main>
+  </div>
+
+  <!-- ═══════ OʻYIN ═══════ -->
+  <div id="scr-game" class="screen">
+    <header class="topbar">
+      <span class="topbar-logo">💸 Pul Oqimi</span>
+      <div class="topbar-actions">
+        <button class="btn btn-ghost" id="btnRulesGame">📖 Qoidalar</button>
+        <button class="btn btn-ghost" onclick="if(confirm('Bosh sahifaga qaytasizmi? Oʻyin saqlanadi.'))location.reload()">⌂</button>
+      </div>
+    </header>
+    <main class="game-grid">
+      <section class="board-wrap">
+        <div id="board" class="board"></div>
+        <div id="hub" class="hub"></div>
+      </section>
+      <aside id="sidebar" class="sidebar"></aside>
+      <section class="log-wrap">
+        <h4>📜 Voqealar jurnali</h4>
+        <div id="log" class="log"></div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Modal, banner, overlay -->
+  <div id="modal" class="modal"></div>
+  <div id="turnBanner" class="turn-banner"></div>
+  <div id="overlay" class="overlay"></div>
+
+  <script src="js/util.js"></script>
+  <script src="js/data/professions.js"></script>
+  <script src="js/data/stocks.js"></script>
+  <script src="js/data/cards.js"></script>
+  <script src="js/data/tips.js"></script>
+  <script src="js/engine.js"></script>
+  <script src="js/board.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
