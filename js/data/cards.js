@@ -35,47 +35,47 @@
     // —— Koʻchmas mulk (kichik) ——
     {
       id: 's_chilonzor1', t: 're', nom: 'Chilonzorda 1 xonali kvartira', emoji: '🏢',
-      full: 420 * M, mortgage: 378 * M, down: 42 * M, cf: 1300000, tags: ['kvartira', '1xona'],
+      full: 420 * M, mortgage: 378 * M, down: 42 * M, cf: 1700000, tags: ['kvartira', '1xona'],
       desc: 'Metro yaqinidagi eski, lekin pishiq uy. Ijarachi tayyor — pul oqimi darhol boshlanadi.',
     },
     {
       id: 's_sergeli1', t: 're', nom: 'Sergelida yangi 1 xonali («Yoshlar ipotekasi»)', emoji: '🏢',
-      full: 360 * M, mortgage: 342 * M, down: 18 * M, cf: 700000, tags: ['kvartira', '1xona'],
+      full: 360 * M, mortgage: 342 * M, down: 18 * M, cf: 900000, tags: ['kvartira', '1xona'],
       desc: 'Imtiyozli ipoteka dasturi: boshlangʻich toʻlov atigi 5%! Kredit katta — pul oqimi kamroq, lekin start juda arzon.',
     },
     {
       id: 's_yunusobod2', t: 're', nom: 'Yunusobodda 2 xonali kvartira', emoji: '🏢',
-      full: 560 * M, mortgage: 504 * M, down: 56 * M, cf: 1600000, tags: ['kvartira', '2xona'],
+      full: 560 * M, mortgage: 504 * M, down: 56 * M, cf: 2100000, tags: ['kvartira', '2xona'],
       desc: 'Yaxshi remontli, oilaviy ijarachilar bilan. Barqaror daromad manbai.',
     },
     {
       id: 's_olmazor1', t: 're', nom: 'Olmazorda 1 xonali (taʼmirtalab)', emoji: '🔨',
-      full: 330 * M, mortgage: 300 * M, down: 30 * M, cf: 800000, tags: ['kvartira', '1xona'],
+      full: 330 * M, mortgage: 300 * M, down: 30 * M, cf: 1050000, tags: ['kvartira', '1xona'],
       desc: 'Taʼmiri eskirgan — shuning uchun arzon. Ijaraga baribir olishadi: talabalar shahri yaqin.',
     },
     {
       id: 's_qoqon2', t: 're', nom: 'Qoʻqonda 2 xonali kvartira', emoji: '🏘️',
-      full: 230 * M, mortgage: 207 * M, down: 23 * M, cf: 750000, tags: ['kvartira', '2xona'],
+      full: 230 * M, mortgage: 207 * M, down: 23 * M, cf: 1000000, tags: ['kvartira', '2xona'],
       desc: 'Viloyatda narxlar Toshkentdan ancha past, ijara esa unchalik farq qilmaydi — rentabellik zoʻr.',
     },
     {
       id: 's_andijon1', t: 're', nom: 'Andijonda 1 xonali («Yoshlar ipotekasi»)', emoji: '🏘️',
-      full: 200 * M, mortgage: 190 * M, down: 10 * M, cf: 500000, tags: ['kvartira', '1xona'],
+      full: 200 * M, mortgage: 190 * M, down: 10 * M, cf: 650000, tags: ['kvartira', '1xona'],
       desc: 'Imtiyozli dastur: boshlangʻich toʻlov 5%. Zich shaharda ijara talabi doim baland.',
     },
     {
       id: 's_samarqand_hovli', t: 're', nom: 'Samarqandda hovli (turistik mavze)', emoji: '🏡',
-      full: 320 * M, mortgage: 272 * M, down: 48 * M, cf: 1500000, tags: ['hovli'],
+      full: 320 * M, mortgage: 272 * M, down: 48 * M, cf: 2000000, tags: ['hovli'],
       desc: 'Registonga 15 daqiqa. Mehmon uyi qilib turistlarga berilsa, daromadi kvartiradan baland.',
     },
     {
       id: 's_yakkasaroy_studiya', t: 're', nom: 'Yakkasaroyda studiya (kunlik ijara)', emoji: '🛋️',
-      full: 350 * M, mortgage: 315 * M, down: 35 * M, cf: 1250000, tags: ['kvartira', '1xona'],
+      full: 350 * M, mortgage: 315 * M, down: 35 * M, cf: 1650000, tags: ['kvartira', '1xona'],
       desc: 'Markazga yaqin studiya — kunlik ijaraga qoʻyilsa oylikdan koʻproq chiqadi.',
     },
     {
       id: 's_dala_hovli', t: 're', nom: 'Toshkent viloyatida dala hovli', emoji: '🌳',
-      full: 160 * M, mortgage: 128 * M, down: 32 * M, cf: 450000, tags: ['hovli'],
+      full: 160 * M, mortgage: 128 * M, down: 32 * M, cf: 600000, tags: ['hovli'],
       desc: 'Yozda dam olishga ijaraga beriladi. Daromadi mavsumiy, lekin narxi oshib boradi.',
     },
     {
@@ -87,57 +87,57 @@
     // —— Kichik biznes ——
     {
       id: 's_somsa', t: 'biz', nom: 'Somsa tandiri (bozor yonida)', emoji: '🥟',
-      cost: 16 * M, cf: 1100000, tags: ['kbiznes'],
+      cost: 16 * M, cf: 1450000, tags: ['kbiznes'],
       desc: 'Ishlab turgan nuqta, doimiy mijozlari bor. Usta oshpaz joyida qoladi — sizga sof foyda.',
     },
     {
       id: 's_aksessuar', t: 'biz', nom: 'Telefon aksessuarlari doʻkoni (50% ulush)', emoji: '📱',
-      cost: 26 * M, cf: 1400000, tags: ['kbiznes'],
+      cost: 26 * M, cf: 1800000, tags: ['kbiznes'],
       desc: 'Savdo markazidagi kichik doʻkonning yarim ulushi. Sherigingiz oʻzi ishlaydi, foyda teng boʻlinadi.',
     },
     {
       id: 's_taksi_avto', t: 're', nom: 'Yengil avto — taksiga ijaraga', emoji: '🚕',
-      full: 160 * M, mortgage: 120 * M, down: 40 * M, cf: 1450000, tags: ['kbiznes'],
+      full: 160 * M, mortgage: 120 * M, down: 40 * M, cf: 1850000, tags: ['kbiznes'],
       desc: 'Avtokreditga olingan mashina taksi haydovchisiga kunlik ijaraga beriladi. Kredit toʻlovidan ortgani — sizniki.',
     },
     {
       id: 's_onlayn_dokon', t: 'biz', nom: 'Onlayn-doʻkon (marketpleysda)', emoji: '🛒',
-      cost: 14 * M, cf: 800000, tags: ['kbiznes'],
+      cost: 14 * M, cf: 1050000, tags: ['kbiznes'],
       desc: 'Mahalliy marketpleysda ishlab turgan doʻkon: tovar zaxirasi va reytingi bilan birga sotiladi.',
     },
     {
       id: 's_terminal', t: 'biz', nom: 'Toʻlov terminallari (2 dona)', emoji: '🏧',
-      cost: 9 * M, cf: 400000, tags: ['kbiznes'],
+      cost: 9 * M, cf: 550000, tags: ['kbiznes'],
       desc: 'Gavjum joylarga oʻrnatilgan terminallar. Kichik, lekin barqaror komissiya daromadi.',
     },
     {
       id: 's_kiryuvish', t: 'biz', nom: 'Kir yuvish xizmati (uskunalar)', emoji: '🧺',
-      cost: 19 * M, cf: 850000, tags: ['kbiznes'],
+      cost: 19 * M, cf: 1100000, tags: ['kbiznes'],
       desc: 'Sanoat kir yuvish mashinalari mehmonxonalarga xizmat koʻrsatadi.',
     },
     {
       id: 's_asal', t: 'biz', nom: 'Asalarichilik (50 quti ari)', emoji: '🐝',
-      cost: 22 * M, cf: 700000, tags: ['kbiznes'],
+      cost: 22 * M, cf: 900000, tags: ['kbiznes'],
       desc: 'Togʻ etagidagi asalari qutilari. Asal va gul changi sotuvidan oʻrtacha oylik daromad.',
     },
     {
       id: 's_foto', t: 'biz', nom: 'Foto-video uskunalar (ijaraga berish)', emoji: '📸',
-      cost: 12 * M, cf: 500000, tags: ['kbiznes'],
+      cost: 12 * M, cf: 650000, tags: ['kbiznes'],
       desc: 'Kamera va yoritgichlar toʻplami toʻy-marosim operatorlariga ijaraga beriladi.',
     },
     {
       id: 's_skuter', t: 'biz', nom: 'Elektroskuterlar (2 ta, ijaraga)', emoji: '🛴',
-      cost: 6 * M, cf: 350000, tags: ['kbiznes'],
+      cost: 6 * M, cf: 450000, tags: ['kbiznes'],
       desc: 'Park yonида ikkita skuter soatbay ijaraga beriladi. Kichik start — barqaror choychaqa.',
     },
     {
       id: 's_popkorn', t: 'biz', nom: 'Popkorn aparati (kinoteatr oldida)', emoji: '🍿',
-      cost: 3 * M, cf: 250000, tags: ['kbiznes'],
+      cost: 3 * M, cf: 320000, tags: ['kbiznes'],
       desc: 'Eng kichik biznes — lekin u ham har oy pul olib keladi. Boshlash uchun ideal!',
     },
     {
       id: 's_instagram', nom: 'Instagram-doʻkon (tayyor sahifa)', t: 'biz', emoji: '🛍️',
-      cost: 4500000, cf: 300000, tags: ['kbiznes'],
+      cost: 4500000, cf: 400000, tags: ['kbiznes'],
       desc: '40 ming obunachili tayyor onlayn-doʻkon sahifasi — yetkazib berish yoʻlga qoʻyilgan.',
     },
   ];
@@ -146,92 +146,92 @@
   PO.DATA.big = [
     {
       id: 'b_dom8', t: 're', nom: '8 xonadonli dom (Sergeli)', emoji: '🏬',
-      full: 1600 * M, mortgage: 1440 * M, down: 160 * M, cf: 6000000, tags: ['dom'],
+      full: 1600 * M, mortgage: 1440 * M, down: 160 * M, cf: 7500000, tags: ['dom'],
       desc: 'Butun boshli kichik dom: 8 ta kvartira, 8 ta ijarachi. Koʻchmas mulk portfelining "ogʻir artilleriyasi".',
     },
     {
       id: 'b_minimarket', t: 'biz', nom: 'Mini-market (mahallada)', emoji: '🏪',
-      full: 520 * M, mortgage: 416 * M, down: 104 * M, cf: 5200000, tags: ['biznes'],
+      full: 520 * M, mortgage: 416 * M, down: 104 * M, cf: 6500000, tags: ['biznes'],
       desc: 'Mahallaning doimiy mijozli doʻkoni. Sotuvchilar va taʼminot yoʻlga qoʻyilgan.',
     },
     {
       id: 'b_choyxona', t: 'biz', nom: 'Choyxona (shahar markazida)', emoji: '🫖',
-      full: 400 * M, mortgage: 320 * M, down: 80 * M, cf: 4300000, tags: ['biznes'],
+      full: 400 * M, mortgage: 320 * M, down: 80 * M, cf: 5400000, tags: ['biznes'],
       desc: 'Osh va shashlik doim oʻtadi! Jamoasi shakllangan, oshpazi mashhur.',
     },
     {
       id: 'b_avtoyuvish', t: 'biz', nom: 'Avtoyuvish (6 postli)', emoji: '🚿',
-      full: 340 * M, mortgage: 272 * M, down: 68 * M, cf: 3600000, tags: ['biznes'],
+      full: 340 * M, mortgage: 272 * M, down: 68 * M, cf: 4500000, tags: ['biznes'],
       desc: 'Katta yoʻl boʻyidagi avtoyuvish shoxobchasi — mashina koʻpaygan sari mijoz ham koʻpayadi.',
     },
     {
       id: 'b_nonvoyxona', t: 'biz', nom: 'Nonvoyxona (3 tandirli)', emoji: '🍞',
-      full: 300 * M, mortgage: 240 * M, down: 60 * M, cf: 3400000, tags: ['biznes'],
+      full: 300 * M, mortgage: 240 * M, down: 60 * M, cf: 4300000, tags: ['biznes'],
       desc: 'Issiq non hech qachon sotilmay qolmaydi. Uchta tandir, oʻn nafar usta.',
     },
     {
       id: 'b_issiqxona', t: 'biz', nom: 'Issiqxona (1 gektar)', emoji: '🍅',
-      full: 460 * M, mortgage: 368 * M, down: 92 * M, cf: 5000000, tags: ['biznes'],
+      full: 460 * M, mortgage: 368 * M, down: 92 * M, cf: 6300000, tags: ['biznes'],
       desc: 'Zamonaviy issiqxona: pomidor va bodring qishda ham eksportga ketadi.',
     },
     {
       id: 'b_mehmonuyi', t: 'biz', nom: 'Mehmon uyi (Buxoro eski shahri)', emoji: '🏨',
-      full: 700 * M, mortgage: 560 * M, down: 140 * M, cf: 6300000, tags: ['biznes'],
+      full: 700 * M, mortgage: 560 * M, down: 140 * M, cf: 7900000, tags: ['biznes'],
       desc: 'Labi Hovuz yaqinidagi 10 xonali mehmon uyi. Turizm oqimi yildan-yilga oshmoqda.',
     },
     {
       id: 'b_bolalar_markazi', t: 'biz', nom: 'Bolalar oʻyin markazi', emoji: '🎠',
-      full: 380 * M, mortgage: 304 * M, down: 76 * M, cf: 3900000, tags: ['biznes'],
+      full: 380 * M, mortgage: 304 * M, down: 76 * M, cf: 4900000, tags: ['biznes'],
       desc: 'Savdo markazi ichidagi attraksionlar maydonchasi. Dam olish kunlari navbat boʻladi.',
     },
     {
       id: 'b_salon', t: 'biz', nom: 'Goʻzallik saloni', emoji: '💇',
-      full: 260 * M, mortgage: 208 * M, down: 52 * M, cf: 2700000, tags: ['biznes'],
+      full: 260 * M, mortgage: 208 * M, down: 52 * M, cf: 3400000, tags: ['biznes'],
       desc: 'Obod mavzedagi salon: ustalar ijarada oʻtiradi, siz esa foizini olasiz.',
     },
     {
       id: 'b_stomatologiya', t: 'biz', nom: 'Stomatologiya klinikasi (ulush)', emoji: '🦷',
-      full: 500 * M, mortgage: 400 * M, down: 100 * M, cf: 5300000, tags: ['biznes'],
+      full: 500 * M, mortgage: 400 * M, down: 100 * M, cf: 6600000, tags: ['biznes'],
       desc: 'Ishlab turgan xususiy klinikaning 40% ulushi. Tibbiyot — inqirozni bilmaydigan soha.',
     },
     {
       id: 'b_fura', t: 'biz', nom: 'Fura (xalqaro logistika)', emoji: '🚛',
-      full: 820 * M, mortgage: 656 * M, down: 164 * M, cf: 7800000, tags: ['biznes'],
+      full: 820 * M, mortgage: 656 * M, down: 164 * M, cf: 9800000, tags: ['biznes'],
       desc: 'Yevropa–Osiyo yoʻnalishida qatnaydigan yuk mashinasi. Haydovchi va buyurtmalar tayyor.',
     },
     {
       id: 'b_quyosh', t: 'biz', nom: 'Quyosh panellari (200 kVt)', emoji: '☀️',
-      full: 620 * M, mortgage: 496 * M, down: 124 * M, cf: 5400000, tags: ['biznes'],
+      full: 620 * M, mortgage: 496 * M, down: 124 * M, cf: 6800000, tags: ['biznes'],
       desc: 'Zavod tomiga oʻrnatilgan stansiya — elektr energiyasi "yashil tarif" boʻyicha sotiladi.',
     },
     {
       id: 'b_taksopark', t: 'biz', nom: 'Taksopark (10 ta avto)', emoji: '🚖',
-      full: 900 * M, mortgage: 720 * M, down: 180 * M, cf: 8200000, tags: ['biznes'],
+      full: 900 * M, mortgage: 720 * M, down: 180 * M, cf: 10300000, tags: ['biznes'],
       desc: 'Oʻnta mashina onlayn-taksida ishlaydi. Dispetcher va mexanik shtatda.',
     },
     {
       id: 'b_ofis', t: 're', nom: 'Ofis qavati (IT Park yonida)', emoji: '🏢',
-      full: 1200 * M, mortgage: 960 * M, down: 240 * M, cf: 9500000, tags: ['dom'],
+      full: 1200 * M, mortgage: 960 * M, down: 240 * M, cf: 11900000, tags: ['dom'],
       desc: 'IT kompaniyalarga ijaraga berilgan butun qavat. Uzoq muddatli shartnomalar bilan.',
     },
     {
       id: 'b_sovuqxona', t: 'biz', nom: 'Sovuqxona ombori (meva eksporti)', emoji: '🧊',
-      full: 560 * M, mortgage: 448 * M, down: 112 * M, cf: 5100000, tags: ['biznes'],
+      full: 560 * M, mortgage: 448 * M, down: 112 * M, cf: 6400000, tags: ['biznes'],
       desc: 'Fermerlar hosilini saqlaydigan zamonaviy ombor. Mavsumda narx ikki baravar.',
     },
     {
       id: 'b_toyxona', t: 'biz', nom: 'Toʻyxona (400 oʻrinli)', emoji: '🎊',
-      full: 1000 * M, mortgage: 800 * M, down: 200 * M, cf: 8800000, tags: ['biznes'],
+      full: 1000 * M, mortgage: 800 * M, down: 200 * M, cf: 11000000, tags: ['biznes'],
       desc: 'Oʻzbekistonda toʻy hech qachon toʻxtamaydi. Grafik ikki oy oldinga band!',
     },
     {
       id: 'b_qurilish_texnika', t: 'biz', nom: 'Qurilish texnikasi parki (ijaraga)', emoji: '🚜',
-      full: 750 * M, mortgage: 600 * M, down: 150 * M, cf: 6900000, tags: ['biznes'],
+      full: 750 * M, mortgage: 600 * M, down: 150 * M, cf: 8600000, tags: ['biznes'],
       desc: 'Ekskavator, kran va betonqorgichlar quruvchilarga soatbay ijaraga beriladi.',
     },
     {
       id: 'b_shvey', t: 'biz', nom: 'Tikuvchilik sexi (20 mashina)', emoji: '🧵',
-      full: 350 * M, mortgage: 280 * M, down: 70 * M, cf: 3700000, tags: ['biznes'],
+      full: 350 * M, mortgage: 280 * M, down: 70 * M, cf: 4600000, tags: ['biznes'],
       desc: 'Trikotaj buyumlar tikib eksportga joʻnatadigan kichik sex. Buyurtmalar bir yilga yetadi.',
     },
   ];
@@ -314,7 +314,7 @@
      ("lifestyle inflation" saboqlari). perKid — har bir farzand uchun alohida. */
   PO.DATA.doodad = [
     { id: 'd_toyona', nom: 'Qarindoshning toʻyi — toʻyona', emoji: '💌', pct: 0.15, desc: 'Amakivachchangiz uylanyapti. Toʻyona va sarpo-suruq — bormaslikning iloji yoʻq!' },
-    { id: 'd_osh', nom: 'Osh berish (mahalla)', emoji: '🍚', pct: 0.5, desc: 'Navbat sizga keldi: ertalabki oshga qozon osildi. Mahalla — mahalla-da.' },
+    { id: 'd_osh', nom: 'Osh berish (mahalla)', emoji: '🍚', pct: 0.45, desc: 'Navbat sizga keldi: ertalabki oshga qozon osildi. Mahalla — mahalla-da.' },
     { id: 'd_beshik', nom: 'Beshik toʻy', emoji: '👶', pct: 0.25, perKid: true, desc: 'Chaqaloqqa beshik toʻy qilyapsiz. Farzandingiz boʻlmasa — bu xarajatdan qutuldingiz!' },
     { id: 'd_telefon', nom: 'Yangi smartfon', emoji: '📱', pct: 0.35, desc: 'Doʻstlaringizda bor — sizda yoʻq. Nafs qoʻymadi, oldingiz.' },
     { id: 'd_tv', nom: 'Katta televizor', emoji: '📺', pct: 0.25, desc: 'Chegirma!!! degan yozuvni koʻrib qololmadingiz.' },
@@ -333,7 +333,7 @@
     { id: 'd_ekran', nom: 'Telefon ekrani sindi', emoji: '📵', pct: 0.08, desc: 'Bir soniya — va ekran oʻrgimchak toʻriga aylandi.' },
     { id: 'd_tish', nom: 'Tish davolash', emoji: '🦷', pct: 0.15, desc: 'Kechiktirgan sari qimmatlashib boraverardi — endi rosa toʻlaysiz.' },
     { id: 'd_fitnes', nom: 'Fitnes (yillik obuna)', emoji: '🏋️', pct: 0.12, desc: 'Yanvardan boshlayman!.. Obuna olindi, borish esa — koʻrib boʻlar.' },
-    { id: 'd_dubay', nom: 'Dubayga taʼtil', emoji: '✈️', pct: 0.45, desc: 'Instagramdagi rasmlar uchun eng qimmat fon. Yarim yillik jamgʻarma — bir haftada.' },
+    { id: 'd_dubay', nom: 'Dubayga taʼtil', emoji: '✈️', pct: 0.4, desc: 'Instagramdagi rasmlar uchun eng qimmat fon. Yarim yillik jamgʻarma — bir haftada.' },
     { id: 'd_sarpo', nom: 'Qudalarga sarpo', emoji: '🎀', pct: 0.25, desc: 'Quda tomon "odat shunaqa" dedi. Sandiq toʻla sarpo joʻnatildi.' },
   ];
 

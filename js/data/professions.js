@@ -18,7 +18,18 @@
       expenses: { soliq: 384000, uyJoy: 700000, oziq: 750000, transport: 180000, kommunal: 130000, boshqa: 96000 },
       liabilities: [],
       perChild: 300000,
-      startCash: 2000000,
+      startCash: 3800000,
+    },
+    {
+      id: 'pochtachi',
+      nom: 'Pochtachi',
+      emoji: '📮',
+      tagline: 'Xatlar yetkazasiz — endi oʻzingizga «moliyaviy erkinlik» xatini yetkazing!',
+      salary: 3500000,
+      expenses: { soliq: 420000, uyJoy: 750000, oziq: 800000, transport: 150000, kommunal: 160000, boshqa: 170000 },
+      liabilities: [],
+      perChild: 320000,
+      startCash: 4200000,
     },
     {
       id: 'hamshira',
@@ -29,7 +40,7 @@
       expenses: { soliq: 468000, uyJoy: 850000, oziq: 800000, transport: 250000, kommunal: 200000, boshqa: 162000 },
       liabilities: [],
       perChild: 350000,
-      startCash: 2300000,
+      startCash: 4700000,
     },
     {
       id: 'sotuvchi',
@@ -40,7 +51,7 @@
       expenses: { soliq: 516000, uyJoy: 950000, oziq: 850000, transport: 280000, kommunal: 220000, boshqa: 194000 },
       liabilities: [],
       perChild: 400000,
-      startCash: 2600000,
+      startCash: 5200000,
     },
     {
       id: 'oshpaz',
@@ -51,7 +62,7 @@
       expenses: { soliq: 540000, uyJoy: 1000000, oziq: 900000, transport: 250000, kommunal: 230000, boshqa: 230000 },
       liabilities: [],
       perChild: 400000,
-      startCash: 2700000,
+      startCash: 5400000,
     },
     {
       id: 'oqituvchi',
@@ -62,7 +73,7 @@
       expenses: { soliq: 624000, uyJoy: 1150000, oziq: 950000, transport: 300000, kommunal: 250000, boshqa: 426000 },
       liabilities: [],
       perChild: 450000,
-      startCash: 3000000,
+      startCash: 6000000,
     },
     {
       id: 'haydovchi',
@@ -73,7 +84,31 @@
       expenses: { soliq: 720000, uyJoy: 1250000, oziq: 1000000, transport: 180000, kommunal: 260000, boshqa: 540000 },
       liabilities: [{ id: 'istemol', nom: 'Isteʼmol krediti', balance: 8000000, payment: 400000 }],
       perChild: 500000,
-      startCash: 3300000,
+      startCash: 6600000,
+    },
+    {
+      id: 'taksichi',
+      nom: 'Taksichi',
+      emoji: '🚕',
+      tagline: 'Rul ortida kun boʻyi. Avtokreditni yopsangiz — mashina ham, daromad ham sizniki.',
+      salary: 6200000,
+      expenses: { soliq: 744000, uyJoy: 1200000, oziq: 1050000, transport: 400000, kommunal: 260000, boshqa: 396000 },
+      liabilities: [
+        { id: 'avto', nom: 'Avtokredit', balance: 35000000, payment: 900000 },
+      ],
+      perChild: 500000,
+      startCash: 5000000,
+    },
+    {
+      id: 'elektrik',
+      nom: 'Elektrik-montyor',
+      emoji: '⚡',
+      tagline: 'Qoʻlingizda hunar bor — tok urmaydi, lekin nazoratsiz xarajatlar «urishi» mumkin.',
+      salary: 6800000,
+      expenses: { soliq: 816000, uyJoy: 1300000, oziq: 1100000, transport: 300000, kommunal: 280000, boshqa: 904000 },
+      liabilities: [],
+      perChild: 550000,
+      startCash: 8400000,
     },
     {
       id: 'fermer',
@@ -84,7 +119,7 @@
       expenses: { soliq: 900000, uyJoy: 550000, oziq: 950000, transport: 420000, kommunal: 300000, boshqa: 630000 },
       liabilities: [{ id: 'lizing', nom: 'Texnika lizingi', balance: 70000000, payment: 1750000 }],
       perChild: 550000,
-      startCash: 4000000,
+      startCash: 8000000,
     },
     {
       id: 'muhandis',
@@ -98,7 +133,7 @@
         { id: 'avto', nom: 'Avtokredit', balance: 50000000, payment: 1250000 },
       ],
       perChild: 700000,
-      startCash: 3800000,
+      startCash: 7600000,
     },
     {
       id: 'shifokor',
@@ -112,7 +147,20 @@
         { id: 'avto', nom: 'Avtokredit', balance: 60000000, payment: 1500000 },
       ],
       perChild: 800000,
-      startCash: 3200000,
+      startCash: 6400000,
+    },
+    {
+      id: 'blogger',
+      nom: 'Blogger',
+      emoji: '📱',
+      tagline: 'Obunachi million, daromad yomonmas. Lekin u barqarormi? Aktivlar — barqaror!',
+      salary: 10000000,
+      expenses: { soliq: 1200000, uyJoy: 2200000, oziq: 1300000, transport: 400000, kommunal: 350000, boshqa: 1450000 },
+      liabilities: [
+        { id: 'nasiya', nom: 'Nasiya (texnika)', balance: 30000000, payment: 900000 },
+      ],
+      perChild: 800000,
+      startCash: 8800000,
     },
     {
       id: 'bank_mutaxassisi',
@@ -126,7 +174,21 @@
         { id: 'avto', nom: 'Avtokredit', balance: 70000000, payment: 1750000 },
       ],
       perChild: 850000,
-      startCash: 4400000,
+      startCash: 8800000,
+    },
+    {
+      id: 'stomatolog',
+      nom: 'Stomatolog',
+      emoji: '🦷',
+      tagline: 'Daromad aʼlo — lekin uskuna lizingi va ipoteka yelkada. Klassik «yuqori maosh tuzogʻi».',
+      salary: 12500000,
+      expenses: { soliq: 1500000, uyJoy: 0, oziq: 1400000, transport: 450000, kommunal: 380000, boshqa: 870000 },
+      liabilities: [
+        { id: 'ipoteka', nom: 'Ipoteka', balance: 230000000, payment: 3300000 },
+        { id: 'lizing', nom: 'Uskuna lizingi', balance: 90000000, payment: 2250000 },
+      ],
+      perChild: 900000,
+      startCash: 9400000,
     },
     {
       id: 'advokat',
@@ -140,7 +202,7 @@
         { id: 'avto', nom: 'Avtokredit', balance: 100000000, payment: 2500000 },
       ],
       perChild: 900000,
-      startCash: 6000000,
+      startCash: 12000000,
     },
     {
       id: 'dasturchi',
@@ -154,7 +216,7 @@
         { id: 'nasiya', nom: 'Nasiya (texnika)', balance: 40000000, payment: 1200000 },
       ],
       perChild: 1000000,
-      startCash: 7200000,
+      startCash: 14400000,
     },
     {
       id: 'tadbirkor',
@@ -168,7 +230,7 @@
         { id: 'biznes', nom: 'Biznes krediti', balance: 350000000, payment: 5250000 },
       ],
       perChild: 1200000,
-      startCash: 6600000,
+      startCash: 13200000,
     },
   ];
 

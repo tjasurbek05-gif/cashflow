@@ -107,8 +107,10 @@
   function emergencyValue(a) {
     if (a.kind === 'omonat') return a.lots * a.lotPrice;
     if (a.kind === 'stock') return Math.floor(a.qty * PO.DATA.stocks[a.ticker].base * C.STOCK_EMERGENCY);
-    if (a.kind === 're') return Math.max(Math.round((a.full - a.mortgage) * 0.5), 0);
-    return Math.round((a.cost || 0) * 0.5); // biz, yer
+    if (a.kind === 're' || a.kind === 'biz') {
+      return Math.max(Math.round(((a.full || a.cost) - (a.mortgage || 0)) * 0.5), 0);
+    }
+    return Math.round((a.cost || 0) * 0.5); // yer
   }
 
   function escapeCheck(st, p) {
@@ -245,7 +247,8 @@
       ev(st, { e: 'insolvent', p: p.i });
       log(st, '🆘 ' + p.name + ' toʻlovga qurbi yetmayapti: kassada ' + U.fmt(p.cash) + '. Kredit oling yoki aktiv soting!', 'bad');
     } else {
-      st.pending = { t: 'endTurn', p: p.i };
+      // navbat avtomatik yakunlanadi — bank amallari keyingi navbat boshida ham ochiq
+      nextPlayer(st);
     }
   }
 
@@ -468,8 +471,13 @@
 
   /* ————— Aktiv olish/sotish ————— */
 
+  // Bitim uchun kerakli naqd: boshlangʻich toʻlov (down) boʻlsa — shu, aks holda toʻliq narx
+  function dealNeed(card) {
+    return card.down != null ? card.down : card.cost;
+  }
+
   function buyDealAsset(st, p, card) {
-    var need = card.t === 're' ? card.down : card.cost;
+    var need = dealNeed(card);
     if (p.cash < need) throw new Error('Mablagʻ yetarli emas');
     p.cash -= need;
     var a;
@@ -478,7 +486,8 @@
     } else if (card.t === 'yer') {
       a = { kind: 'yer', cardId: card.id, nom: card.nom, emoji: card.emoji, cost: card.cost, cf: 0, tags: card.tags.slice() };
     } else {
-      a = { kind: 'biz', cardId: card.id, nom: card.nom, emoji: card.emoji, cost: card.t === 're' ? card.down : card.cost, full: card.full || card.cost, cf: card.cf, tags: card.tags.slice() };
+      // katta bizneslarda ham bank krediti (mortgage) boʻlishi mumkin
+      a = { kind: 'biz', cardId: card.id, nom: card.nom, emoji: card.emoji, cost: need, full: card.full || card.cost, mortgage: card.mortgage || 0, cf: card.cf, tags: card.tags.slice() };
     }
     p.assets.push(a);
     p.stats.deals++;
@@ -490,8 +499,7 @@
 
   function sellAsset(st, p, idx, price, why) {
     var a = p.assets[idx];
-    var gain = price;
-    if (a.kind === 're') gain = price - a.mortgage;
+    var gain = price - (a.mortgage || 0); // sotuvda bank krediti/ipoteka yopiladi
     p.cash += gain;
     p.assets.splice(idx, 1);
     ev(st, { e: 'cash', p: p.i, delta: gain });
@@ -744,7 +752,7 @@
         p.cash += amt2;
         ev(st, { e: 'cash', p: p.i, delta: amt2 });
         log(st, '🏦 Majburiy kredit: ' + U.fmt(amt2) + ' olindi.', 'warn');
-        if (p.cash >= 0) st.pending = { t: 'endTurn', p: p.i };
+        if (p.cash >= 0) nextPlayer(st);
         break;
       }
       case 'insolventSell': {
@@ -769,7 +777,7 @@
           ev(st, { e: 'cash', p: p.i, delta: val });
         }
         escapeCheck(st, p);
-        if (p.cash >= 0) st.pending = { t: 'endTurn', p: p.i };
+        if (p.cash >= 0) nextPlayer(st);
         break;
       }
       case 'declareBankrupt': {
@@ -783,12 +791,9 @@
         break;
       }
 
-      /* — navbat yakuni — */
+      /* — navbat yakuni (eski mijozlar/saqlashlar uchun moslik) — */
       case 'endTurn':
-        if (pd.t !== 'endTurn' && pd.t !== 'doodad' && pd.t !== 'baby' && pd.t !== 'downsize' &&
-            pd.t !== 'market' && pd.t !== 'ftTax' && pd.t !== 'ftLawsuit') throw new Error('notoʻgʻri holat');
-        if (p.cash < 0) { finishMainPhase(st); break; }
-        nextPlayer(st);
+        finishMainPhase(st);
         break;
 
       case 'ack': {
@@ -833,6 +838,7 @@
       maxLoan: maxLoan,
       emergencyValue: emergencyValue,
       doodadCost: doodadCost,
+      dealNeed: dealNeed,
     },
     cardById: cardById,
     dreamById: dreamById,

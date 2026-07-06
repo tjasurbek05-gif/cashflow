@@ -20,15 +20,25 @@ function botAction(st) {
   const calc = E.calc;
 
   switch (pd.t) {
-    case 'turn':
+    case 'turn': {
+      // qarz boshqaruvi — yurishdan oldin
+      const exp0 = calc.expenses(p);
+      for (let i = 0; i < p.liabilities.length; i++) {
+        if (p.cash >= p.liabilities[i].balance + exp0 * 2) return { type: 'repayLiability', idx: i };
+      }
+      if (p.bankLoan > 0 && p.cash > p.bankLoan + exp0 * 3) {
+        const r = Math.floor(Math.min(p.bankLoan, p.cash - exp0 * 3) / 1e6) * 1e6;
+        if (r > 0) return { type: 'repayLoan', amount: r };
+      }
       return { type: 'roll', dice: pd.canDice2 ? 2 : 1 };
+    }
 
     case 'dealSize':
       return { type: 'dealSize', size: p.cash >= 70e6 ? 'big' : 'small' };
 
     case 'deal': {
       const card = E.cardById(pd.cardId);
-      const need = card.t === 're' ? card.down : card.cost;
+      const need = calc.dealNeed(card);
       if (card.t === 'yer') {
         return p.cash >= card.cost * 2 ? { type: 'buyDeal' } : { type: 'skip' };
       }
@@ -76,10 +86,10 @@ function botAction(st) {
       const q = st.players[off.p];
       const a = q.assets[off.assetIdx];
       if (!a) return { type: 'skip' };
+      const equityPaid = a.down != null ? a.down : a.cost || a.full;
       let sell = false;
       if (a.kind === 'yer') sell = off.price > a.cost * 1.3;
-      else if (a.kind === 're') sell = off.price - a.mortgage > a.down * 2;
-      else if (a.kind === 'biz') sell = off.price >= (a.full || a.cost) * 1.4;
+      else sell = off.price - (a.mortgage || 0) > equityPaid * 2;
       return sell ? { type: 'acceptOffer' } : { type: 'skip' };
     }
 
@@ -115,18 +125,8 @@ function botAction(st) {
       return { type: 'declareBankrupt' };
     }
 
-    case 'endTurn': {
-      // qarz boshqaruvi
-      const exp = calc.expenses(p);
-      for (let i = 0; i < p.liabilities.length; i++) {
-        if (p.cash >= p.liabilities[i].balance + exp * 2) return { type: 'repayLiability', idx: i };
-      }
-      if (p.bankLoan > 0 && p.cash > p.bankLoan + exp * 3) {
-        const r = Math.floor(Math.min(p.bankLoan, p.cash - exp * 3) / 1e6) * 1e6;
-        if (r > 0) return { type: 'repayLoan', amount: r };
-      }
+    case 'endTurn': // eski holat — endi avtomatik yakunlanadi
       return { type: 'endTurn' };
-    }
 
     default:
       throw new Error('Bot uchun nomaʼlum pending: ' + pd.t);

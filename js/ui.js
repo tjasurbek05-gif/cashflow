@@ -91,7 +91,7 @@
     var aRows = '';
     if (p.assets.length === 0) aRows = '<div class="empty">Hozircha aktiv yoʻq. Imkoniyat kataklarida bitimlar qidiring!</div>';
     p.assets.forEach(function (a, i) {
-      aRows += '<div class="asset"><div class="asset-l"><span class="asset-nom">' + (a.emoji || '📦') + ' ' + esc(shortNom(a)) + '</span>' +
+      aRows += '<div class="asset"><div class="asset-l"><span class="asset-nom"><span class="asset-idx">' + (i + 1) + '</span> ' + (a.emoji || '📦') + ' ' + esc(shortNom(a)) + '</span>' +
         '<span class="asset-info">' + assetInfo(a) + '</span></div>';
       if (a.kind === 'omonat' && isTurnOwner) {
         aRows += '<button class="mini" data-withdraw="' + i + '">Yechish</button>';
@@ -147,7 +147,7 @@
     if (a.kind === 'omonat') return a.lots + ' lot (' + U.fmtShortSum(a.lots * a.lotPrice) + ') · +' + U.fmtShort(a.cf) + '/oy';
     if (a.kind === 're') return 'Ipoteka: ' + U.fmtShortSum(a.mortgage) + ' · ijara +' + U.fmtShort(a.cf) + '/oy';
     if (a.kind === 'yer') return 'Olingan: ' + U.fmtShortSum(a.cost) + ' · daromadsiz (spekulyativ)';
-    return 'Qiymati: ' + U.fmtShortSum(a.full || a.cost) + ' · +' + U.fmtShort(a.cf) + '/oy';
+    return (a.mortgage ? 'Kredit: ' + U.fmtShortSum(a.mortgage) + ' · ' : 'Qiymati: ' + U.fmtShortSum(a.full || a.cost) + ' · ') + '+' + U.fmtShort(a.cf) + '/oy';
   }
 
   /* ═══════════ JURNAL ═══════════ */
@@ -285,14 +285,14 @@
         var off = pd.offers[pd.cur];
         var owner = st.players[off.p];
         var asset = owner.assets[off.assetIdx];
-        var gain = asset.kind === 're' ? off.price - asset.mortgage : off.price;
-        var paid = asset.kind === 're' ? asset.down : asset.cost || asset.full;
+        var gain = off.price - (asset.mortgage || 0);
+        var paid = asset.down != null ? asset.down : asset.cost || asset.full;
         showModal({
           kicker: 'Bozor taklifi · ' + esc(owner.name), emoji: moc.emoji || '🏪', title: moc.nom,
           body: '<p>' + esc(moc.desc) + '</p><div class="facts">' +
             '<div class="frow"><span>Aktiv</span><b>' + (asset.emoji || '') + ' ' + esc(asset.nom) + '</b></div>' +
             '<div class="frow"><span>Taklif narxi</span><b>' + U.fmt(off.price) + '</b></div>' +
-            (asset.kind === 're' ? '<div class="frow"><span>Ipoteka yopiladi</span><b>−' + U.fmt(asset.mortgage) + '</b></div>' : '') +
+            (asset.mortgage ? '<div class="frow"><span>Bank krediti yopiladi</span><b>−' + U.fmt(asset.mortgage) + '</b></div>' : '') +
             '<div class="frow total"><span>Qoʻlga tegadi</span><b>+' + U.fmt(gain) + '</b></div>' +
             '<div class="frow"><span>Siz sarflagan edingiz</span><b>' + U.fmt(paid) + '</b></div>' +
             (asset.cf ? '<div class="frow"><span>Yoʻqotiladigan oqim</span><b>−' + U.fmtShort(asset.cf) + '/oy</b></div>' : '') +
@@ -400,14 +400,15 @@
 
   /* — bitim modali — */
   function dealModal(st, p, card) {
-    var need = card.t === 're' ? card.down : card.cost;
+    var need = E.calc.dealNeed(card);
     var roi = need > 0 && card.cf ? ((card.cf / need) * 100).toFixed(1).replace('.', ',') : null;
     var rows = '';
-    if (card.t === 're') {
+    if (card.down != null) {
+      // bank moliyalashtiruvi bilan: kvartira (ipoteka) yoki yirik biznes (kredit)
       rows = '<div class="frow"><span>Toʻliq narxi</span><b>' + U.fmt(card.full) + '</b></div>' +
-        '<div class="frow"><span>Ipoteka (bank toʻlaydi)</span><b>' + U.fmt(card.mortgage) + '</b></div>' +
+        '<div class="frow"><span>' + (card.t === 're' ? 'Ipoteka (bank toʻlaydi)' : 'Bank krediti (biznesga)') + '</span><b>' + U.fmt(card.mortgage) + '</b></div>' +
         '<div class="frow total"><span>Boshlangʻich toʻlov</span><b>' + U.fmt(card.down) + '</b></div>' +
-        '<div class="frow"><span>Pul oqimi (ijaradan, sof)</span><b class="good">+' + U.fmt(card.cf) + '/oy</b></div>';
+        '<div class="frow"><span>Pul oqimi (sof)</span><b class="good">+' + U.fmt(card.cf) + '/oy</b></div>';
     } else if (card.t === 'yer') {
       rows = '<div class="frow total"><span>Narxi</span><b>' + U.fmt(card.cost) + '</b></div>' +
         '<div class="frow"><span>Pul oqimi</span><b>0 (spekulyativ aktiv)</b></div>';

@@ -10,9 +10,9 @@ Robert Kiyosakining mashhur «CASHFLOW» stol oʻyini gʻoyalaridan ilhomlangan 
 
 ## ✨ Xususiyatlar
 
-- **13 ta real kasb** — farrosh (3,2 mln), oʻqituvchi, shifokor, dasturchi, tadbirkor (22 mln)…
-  Maoshlar 2025–2026-yillardagi Oʻzbekiston moʻljallariga asoslangan (stat.uz: 2026-yil I chorakda
-  oʻrtacha oylik ish haqi ≈ 6,8 mln soʻm).
+- **18 ta real kasb** — farrosh (3,2 mln), pochtachi, taksichi, elektrik, oʻqituvchi, shifokor,
+  blogger, stomatolog, dasturchi, tadbirkor (22 mln)… Maoshlar 2025–2026-yillardagi Oʻzbekiston
+  moʻljallariga asoslangan (stat.uz: 2026-yil I chorakda oʻrtacha oylik ish haqi ≈ 6,8 mln soʻm).
 - **110+ oʻzbekcha karta**: somsa tandiri, choyxona, nonvoyxona, issiqxona, toʻyxona, Chilonzordagi
   kvartira, Buxorodagi mehmon uyi… va albatta toʻyona, osh berish, qudalarga sarpo kabi hayotiy xarajatlar 😄
 - **6 ta real UZSE aksiyasi** — Toshkent fond birjasida (uzse.uz) haqiqatda savdolanadigan
@@ -23,6 +23,8 @@ Robert Kiyosakining mashhur «CASHFLOW» stol oʻyini gʻoyalaridan ilhomlangan 
 - **Moliyaviy hisobot paneli** — daromad/xarajat/aktiv/passiv jonli koʻrinib turadi; har navbatda
   moliyaviy savodxonlik maslahatlari.
 - **1–4 oʻyinchi** bitta qurilmada (navbatma-navbat), avtomatik saqlash va davom ettirish.
+- **Tez sur’at**: navbatlar avtomatik yakunlanadi, ortiqcha bosishlar yoʻq — bitta partiya
+  odatda ~30–60 daqiqa (yakka oʻyin undan ham tez).
 - **Animatsiyalar**: shoshqol, fishkalar harakati, karta modallar, konfetti 🎉
 - Oddiy **HTML+CSS+JS** — hech qanday build, framework yoki server kerak emas. Telefonda ham ishlaydi.
 
@@ -70,8 +72,9 @@ test/sim.js           — balans simulyatori (Node)
 ```
 
 **Balansni tekshirish:** `node test/sim.js 300` — har kasb uchun yuzlab avtomatik oʻyin
-oʻynab, chiqish/gʻalaba/bankrotlik statistikasi chiqaradi. Hozirgi balans: arzon kasblar
-~60 oyda poygadan chiqadi, shifokor va tadbirkor — ataylab «qiyin rejim» (xuddi asl oʻyindagidek).
+oʻynab, chiqish/gʻalaba/bankrotlik statistikasi chiqaradi. Hozirgi balans: koʻpchilik kasblar
+~40 oyda (oʻyin vaqtida) poygadan chiqadi; shifokor, taksichi va tadbirkor — ataylab
+«qiyin rejim» (xuddi asl oʻyindagidek).
 
 **Maʼlumotlarni yangilash:** aksiya narxlari — `js/data/stocks.js`, maoshlar —
 `js/data/professions.js`, narxlar — `js/data/cards.js`. Hammasi oddiy JS obyektlar,

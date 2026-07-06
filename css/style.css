@@ -337,6 +337,11 @@ body::before {
 .asset:last-child { border-bottom: none; }
 .asset-l { display: flex; flex-direction: column; min-width: 0; }
 .asset-nom { font-size: 0.85rem; font-weight: 600; }
+.asset-idx {
+  display: inline-block; min-width: 17px; text-align: center;
+  font-size: 0.68rem; color: var(--muted);
+  background: var(--bg2); border: 1px solid var(--line); border-radius: 6px;
+}
 .asset-info { font-size: 0.75rem; color: var(--muted); }
 .empty { color: var(--muted); font-size: 0.82rem; padding: 6px 0; }
 
