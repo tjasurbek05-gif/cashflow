@@ -7,7 +7,7 @@ const path = require('path');
 const vm = require('vm');
 
 const ROOT = path.join(__dirname, '..');
-['js/util.js', 'js/data/professions.js', 'js/data/stocks.js', 'js/data/cards.js', 'js/data/tips.js', 'js/engine.js']
+['js/util.js', 'js/data/professions.js', 'js/data/stocks.js', 'js/data/cards.js', 'js/data/tips.js', 'js/data/events.js', 'js/engine.js']
   .forEach((f) => vm.runInThisContext(fs.readFileSync(path.join(ROOT, f), 'utf8'), { filename: f }));
 
 const PO = globalThis.PO;
@@ -98,10 +98,27 @@ function botAction(st) {
     case 'downsize':
     case 'ftTax':
     case 'ftLawsuit':
+    case 'event':
       return { type: 'ack' };
 
     case 'charity':
       return p.cash >= pd.cost * 3 ? { type: 'charityYes' } : { type: 'charityNo' };
+
+    case 'gamble': {
+      const buffer = calc.expenses(p);
+      if (pd.stake > 0 && p.cash - pd.stake >= buffer * 2.5) return { type: 'gambleYes' };
+      return { type: 'gambleNo' };
+    }
+
+    case 'auction': {
+      const bidder = st.players[pd.order[pd.activeIdx]];
+      const card = E.cardById(pd.cardId);
+      const nextPrice = pd.highBid + pd.step;
+      const roi = card.cf / nextPrice;
+      const buffer = calc.expenses(bidder);
+      if (bidder.cash - nextPrice >= buffer && roi >= 0.02) return { type: 'auctionBid' };
+      return { type: 'auctionPass' };
+    }
 
     case 'ftDeal': {
       const card = E.cardById(pd.cardId);

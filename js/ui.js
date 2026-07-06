@@ -179,6 +179,7 @@
     m.classList.add('open');
     actions.forEach(function (a, i) {
       m.querySelector('[data-act="' + i + '"]').onclick = function () {
+        PO.sound.play('click');
         if (a.keep !== true) closeModal();
         if (a.fn) a.fn();
         else if (a.action) dispatch(a.action);
@@ -242,18 +243,21 @@
 
       case 'deal': {
         var card = E.cardById(pd.cardId);
-        dealModal(st, p, card);
+        PO.sound.play('card');
+        dealModal(st, p, card, pd.deck);
         break;
       }
 
       case 'stock':
       case 'marketStock':
+        PO.sound.play('card');
         stockModal(st, pd);
         break;
 
       case 'omonat': {
         var oc = E.cardById(pd.cardId);
         var maxLots = Math.floor(p.cash / oc.lotPrice);
+        PO.sound.play('card');
         showModal({
           kicker: 'Kichik bitim', emoji: oc.emoji, title: oc.nom,
           body: '<p>' + esc(oc.desc) + '</p><div class="facts">' +
@@ -272,6 +276,7 @@
 
       case 'market': {
         var mc = E.cardById(pd.cardId);
+        PO.sound.play('card');
         showModal({
           kicker: 'Bozor', emoji: mc.emoji || '🏪', title: mc.nom,
           body: '<p>' + esc(mc.desc) + '</p>',
@@ -307,6 +312,7 @@
 
       case 'doodad': {
         var dc = E.cardById(pd.cardId);
+        PO.sound.play('card');
         showModal({
           kicker: 'Kutilmagan xarajat', emoji: dc.emoji, title: dc.nom, cls: 'modal-bad',
           body: '<p>' + esc(dc.desc) + '</p>' +
@@ -346,8 +352,59 @@
         });
         break;
 
+      case 'event': {
+        var evcard = E.cardById(pd.cardId);
+        PO.sound.play('card');
+        showModal({
+          kicker: 'Voqea', emoji: evcard.emoji, title: evcard.nom,
+          body: '<p>' + esc(evcard.desc) + '</p>',
+          actions: [{ label: 'Davom etish', action: { type: 'ack' } }],
+        });
+        break;
+      }
+
+      case 'gamble':
+        PO.sound.play('card');
+        showModal({
+          kicker: 'Tavakkalli taklif', emoji: '🎯', title: 'Tavakkal qilasizmi?',
+          body: '<p>Doʻstingiz yangi loyihaga taklif qilyapti: mablagʻ tiksangiz, 50% ehtimol bilan ikki barobar boʻlib qaytadi, aks holda yoʻqotasiz.</p>' +
+            '<div class="facts">' +
+            '<div class="frow"><span>Tikiladigan summa</span><b>' + U.fmt(pd.stake) + '</b></div>' +
+            '<div class="frow"><span>Yutsangiz</span><b class="good">+' + U.fmt(pd.stake) + '</b></div>' +
+            '<div class="frow"><span>Yutqazsangiz</span><b class="neg">−' + U.fmt(pd.stake) + '</b></div></div>' +
+            '<p class="muted">Voz kechish ham aqlli qaror — xavfsiz aktivlar barqaror boyitadi.</p>',
+          actions: [
+            { label: 'Yoʻq, xavfsiz oʻynayman', cls: 'btn-ghost', action: { type: 'gambleNo' } },
+            { label: '🎯 Tavakkal qilaman', cls: 'btn-warn', action: { type: 'gambleYes' }, disabled: pd.stake <= 0 || p.cash < pd.stake },
+          ],
+        });
+        break;
+
+      case 'auction': {
+        var acard = E.cardById(pd.cardId);
+        var bidder = st.players[pd.order[pd.activeIdx]];
+        var nextBid = pd.highBid + pd.step;
+        var highBidderName = pd.highBidder >= 0 ? st.players[pd.highBidder].name : '(hali yoʻq)';
+        PO.sound.play('card');
+        showModal({
+          kicker: 'Auksion', emoji: acard.emoji, title: acard.nom, cls: 'modal-ft',
+          body: '<p>' + esc(acard.desc) + '</p><div class="facts">' +
+            '<div class="frow"><span>Boshlangʻich narx</span><b>' + U.fmt(pd.base) + '</b></div>' +
+            '<div class="frow"><span>Pul oqimi</span><b class="good">+' + U.fmt(acard.cf) + '/oy</b></div></div>' +
+            '<div class="auction-box" style="--pc:' + bidder.color + '"><div class="auction-bid">' + U.fmt(pd.highBid) + '</div>' +
+            '<div class="auction-bidder">Yetakchi taklif: ' + esc(highBidderName) + '</div>' +
+            '<div class="auction-turn">Navbat: <b>' + esc(bidder.name) + '</b></div></div>',
+          actions: [
+            { label: 'Voz kechish', cls: 'btn-ghost', action: { type: 'auctionPass' } },
+            { label: '🔨 Taklif: ' + U.fmtShort(nextBid), cls: 'btn-gold', action: { type: 'auctionBid' }, disabled: bidder.cash < nextBid },
+          ],
+        });
+        break;
+      }
+
       case 'ftDeal': {
         var fc = E.cardById(pd.cardId);
+        PO.sound.play('card');
         showModal({
           kicker: 'Tezkor yoʻl · yirik bitim', emoji: fc.emoji, title: fc.nom, cls: 'modal-ft',
           body: '<p>' + esc(fc.desc) + '</p><div class="facts">' +
@@ -399,7 +456,7 @@
   }
 
   /* — bitim modali — */
-  function dealModal(st, p, card) {
+  function dealModal(st, p, card, deck) {
     var need = E.calc.dealNeed(card);
     var roi = need > 0 && card.cf ? ((card.cf / need) * 100).toFixed(1).replace('.', ',') : null;
     var rows = '';
@@ -433,8 +490,9 @@
     } else {
       actions.push({ label: '✅ Sotib olish', cls: 'btn-gold', disabled: true });
     }
+    var kicker = deck === 'big' ? 'Katta bitim' : deck === 'auction' ? 'Auksion (raqobatchisiz)' : 'Kichik bitim';
     showModal({
-      kicker: (PO.DATA.big.indexOf(card) >= 0 ? 'Katta bitim' : 'Kichik bitim'), emoji: card.emoji, title: card.nom,
+      kicker: kicker, emoji: card.emoji, title: card.nom,
       body: '<p>' + esc(card.desc) + '</p><div class="facts">' + rows + '</div>' +
         (gap > 0 && !canLoan ? '<p class="muted">Mablagʻ yetarli emas, kredit limiti ham yetmaydi.</p>' : ''),
       actions: actions,
@@ -607,6 +665,7 @@
     return new Promise(function (resolve) {
       var d1 = $('#die1'), d2 = $('#die2');
       if (!d1) { resolve(); return; }
+      PO.sound.play('dice');
       d2.classList.toggle('hidden', values.length < 2);
       var t = 0;
       var iv = setInterval(function () {
@@ -631,7 +690,20 @@
     t.className = 'cash-toast ' + (delta >= 0 ? 'up' : 'down');
     t.textContent = (delta >= 0 ? '+' : '−') + U.fmtShort(Math.abs(delta)) + ' soʻm' + (label ? ' · ' + label : '');
     document.body.appendChild(t);
+    PO.sound.play(delta >= 0 ? 'cashUp' : 'cashDown');
     setTimeout(function () { t.remove(); }, 2100);
+  }
+
+  function achToast(id) {
+    var a = PO.DATA.achievements[id];
+    if (!a) return;
+    var t = document.createElement('div');
+    t.className = 'ach-toast';
+    t.innerHTML = '<span class="ach-emoji">' + a.emoji + '</span><div><div class="ach-kicker">Yutuq qoʻlga kiritildi</div>' +
+      '<div class="ach-nom">' + esc(a.nom) + '</div><div class="ach-desc">' + esc(a.desc) + '</div></div>';
+    document.body.appendChild(t);
+    PO.sound.play('achievement');
+    setTimeout(function () { t.remove(); }, 4100);
   }
 
   function turnBanner(p) {
@@ -703,6 +775,21 @@
     $('#againBtn').onclick = function () { PO.main.restartSameConfig(); };
   }
 
+  function initMuteButtons() {
+    var btns = [document.getElementById('btnMuteHome'), document.getElementById('btnMuteGame')].filter(Boolean);
+    function refresh() {
+      var m = PO.sound.isMuted();
+      btns.forEach(function (b) {
+        b.textContent = m ? '🔇' : '🔊';
+        b.classList.toggle('is-muted', m);
+      });
+    }
+    btns.forEach(function (b) {
+      b.onclick = function () { PO.sound.toggleMute(); refresh(); };
+    });
+    refresh();
+  }
+
   PO.ui = {
     setDispatch: setDispatch,
     renderSidebar: renderSidebar,
@@ -710,9 +797,11 @@
     renderPending: renderPending,
     showDice: showDice,
     cashToast: cashToast,
+    achToast: achToast,
     turnBanner: turnBanner,
     confetti: confetti,
     closeModal: closeModal,
+    initMuteButtons: initMuteButtons,
     setView: function (i) { viewIdx = i; },
     esc: esc,
   };

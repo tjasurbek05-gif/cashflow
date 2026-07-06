@@ -20,6 +20,14 @@ Robert Kiyosakining mashhur «CASHFLOW» stol oʻyini gʻoyalaridan ilhomlangan 
 - **Toʻliq oʻyin mexanikasi**: ikki doira (Sichqonlar poygasi → Tezkor yoʻl), maosh kuni, bozor,
   ehson, farzand, ishdan boʻshatish, bank krediti (oyiga 3%), ipoteka, omonat, obligatsiya,
   dividendlar, bankrotlik va 2 xil gʻalaba yoʻli (orzu yoki +600 mln/oy pul oqimi).
+- **Qoʻshimcha harakat kataklari**: 📰 kutilmagan voqealar (meros, pul oʻtkazma, biznes hujumi…),
+  ⏩ tanish-bilish (bepul oldinga sakrash), 🎯 tavakkalli taklif (ixtiyoriy, mablagʻ tikib ikki
+  baravar yutish/yoʻqotish imkoniyati) va 🔨 auksion — koʻp oʻyinchida boshqalar bilan ochiq
+  savdolashib jozibali bitimni yutib olish.
+- **10 ta yutuq (achievement)** — birinchi bitimdan tortib gʻalabagacha, ekranda animatsiyali
+  bildirishnoma bilan chiqadi.
+- **Sintez qilingan tovush effektlari** (WebAudio, tashqi fayllarsiz) — shoshqol, pul, karta,
+  yutuq, poygadan chiqish va gʻalaba uchun; bitta tugma bilan oʻchirish/yoqish mumkin.
 - **Moliyaviy hisobot paneli** — daromad/xarajat/aktiv/passiv jonli koʻrinib turadi; har navbatda
   moliyaviy savodxonlik maslahatlari.
 - **1–4 oʻyinchi** bitta qurilmada (navbatma-navbat), avtomatik saqlash va davom ettirish.
@@ -60,11 +68,13 @@ Toʻliq qoidalar va lugʻat oʻyinning «📖 Qoidalar» boʻlimida.
 index.html            — bitta sahifali ilova
 css/style.css         — dizayn (qorongʻu tema, girih naqshlari)
 js/util.js            — yordamchi funksiyalar (soʻm formati, RNG)
-js/data/professions.js — 13 kasb (maosh/xarajat/kreditlar)
+js/data/professions.js — 18 kasb (maosh/xarajat/kreditlar)
 js/data/stocks.js     — UZSE aksiyalari maʼlumotlari
 js/data/cards.js      — barcha kartalar (bitim/bozor/xarajat/orzu…)
 js/data/tips.js       — maslahatlar va lugʻat
+js/data/events.js     — voqealar, auksion bitimlari, yutuq taʼriflari
 js/engine.js          — oʻyin mexanikasi (sof mantiq, DOMsiz)
+js/sound.js           — sintez qilingan tovush effektlari (WebAudio)
 js/board.js           — SVG taxta va animatsiyalar
 js/ui.js              — panel, modallar, effektlar
 js/main.js            — ekranlar, saqlash, harakatlar navbati

@@ -27,11 +27,13 @@
         <button class="btn btn-primary btn-xl hidden" id="btnResume">Davom ettirish</button>
         <button class="btn btn-ghost btn-xl" id="btnRules">📖 Qoidalar</button>
       </div>
+      <button class="mute-btn" id="btnMuteHome" title="Ovozni yoqish/oʻchirish">🔊</button>
       <div class="hero-stats">
         <div class="stat"><b>18</b><span>kasb — farroshdan tadbirkorgacha</span></div>
-        <div class="stat"><b>110+</b><span>oʻzbekcha karta va bitim</span></div>
+        <div class="stat"><b>130+</b><span>oʻzbekcha karta va bitim</span></div>
         <div class="stat"><b>6</b><span>real UZSE aksiyasi</span></div>
         <div class="stat"><b>1–4</b><span>oʻyinchi, bitta qurilmada</span></div>
+        <div class="stat"><b>10</b><span>yutuq — auksion, tavakkal, gʻalaba…</span></div>
       </div>
     </main>
     <footer class="home-foot">
@@ -61,6 +63,7 @@
     <header class="topbar">
       <span class="topbar-logo">💸 Pul Oqimi</span>
       <div class="topbar-actions">
+        <button class="mute-btn" id="btnMuteGame" title="Ovozni yoqish/oʻchirish">🔊</button>
         <button class="btn btn-ghost" id="btnRulesGame">📖 Qoidalar</button>
         <button class="btn btn-ghost" onclick="if(confirm('Bosh sahifaga qaytasizmi? Oʻyin saqlanadi.'))location.reload()">⌂</button>
       </div>
@@ -88,7 +91,9 @@
   <script src="js/data/stocks.js"></script>
   <script src="js/data/cards.js"></script>
   <script src="js/data/tips.js"></script>
+  <script src="js/data/events.js"></script>
   <script src="js/engine.js"></script>
+  <script src="js/sound.js"></script>
   <script src="js/board.js"></script>
   <script src="js/ui.js"></script>
   <script src="js/main.js"></script>

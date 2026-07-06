@@ -20,20 +20,30 @@
     STOCK_EMERGENCY: 0.6,   // favqulodda sotishda aksiya bazaviy narxining 60% i
     RENT_FLOOR: 100000,     // ijara pasayganda minimal cf
     LOG_MAX: 250,
+    SHORTCUT_MIN: 2, SHORTCUT_MAX: 4,       // "tanish-bilish": necha xona oldinga sakraladi
+    GAMBLE_PCT: 0.08, GAMBLE_MIN: 500000, GAMBLE_MAX: 5000000, // tavakkalli taklif stavkasi
+    AUCTION_STEP_PCT: 0.08,                 // auksionda har taklif necha foizga oshadi
+    NETWORTH_MILLIONAIRE: 1000000000,       // "Millioner" yutugʻi uchun sof boylik
+    BIZ_CF_FLOOR: 50000,                    // voqea taʼsiridan keyin ham cf shu qiymatdan past tushmaydi
   };
 
-  // Sichqonlar poygasi doirasi — 24 katak (maosh kuni har 6 katakda)
+  // Sichqonlar poygasi doirasi — 24 katak (maosh kuni har 6 katakda, + voqea/yorliq/tavakkal/auksion)
+  // Diqqat: 'shortcut' oʻyinchini 2-4 xona oldinga majburiy suradi — uning tushish
+  // diapazoniga 'baby'/'downsize' kabi doimiy yoki ogʻir xarajatli kataklar tushmasin
+  // (aks holda ular tasodifdan koʻra tez-tez "urib" ketaveradi — balans sinovida topilgan).
   var RAT = [
-    'deal', 'market', 'deal', 'doodad', 'deal', 'payday', 'deal', 'charity',
-    'deal', 'market', 'deal', 'payday', 'deal', 'baby', 'deal', 'market',
-    'deal', 'payday', 'deal', 'doodad', 'deal', 'downsize', 'deal', 'payday',
+    'deal', 'market', 'event', 'doodad', 'deal', 'payday',
+    'deal', 'charity', 'deal', 'market', 'shortcut', 'payday',
+    'deal', 'deal', 'gamble', 'market', 'baby', 'payday',
+    'deal', 'doodad', 'auction', 'downsize', 'deal', 'payday',
   ];
 
   // Tezkor yoʻl doirasi — 24 katak
   var FAST = [
-    'ftPayday', 'ftDeal', 'ftDeal', 'ftDream', 'ftDeal', 'ftDeal', 'ftDeal', 'ftDream',
-    'ftPayday', 'ftDeal', 'ftDeal', 'ftDream', 'ftTax', 'ftDeal', 'ftDeal', 'ftDream',
-    'ftPayday', 'ftDeal', 'ftDeal', 'ftDream', 'ftLawsuit', 'ftDeal', 'ftDeal', 'ftDream',
+    'ftPayday', 'ftDeal', 'ftDeal', 'ftDream', 'ftDeal', 'ftDeal',
+    'ftEvent', 'ftDream', 'ftPayday', 'ftDeal', 'ftDeal', 'ftDream',
+    'ftTax', 'ftDeal', 'ftDeal', 'ftDream', 'ftPayday', 'ftDeal',
+    'ftAuction', 'ftDream', 'ftLawsuit', 'ftDeal', 'ftDeal', 'ftDream',
   ];
 
   var PLAYER_COLORS = ['#0d9488', '#d97706', '#f43f5e', '#8b5cf6']; // CVD-tekshiruvdan oʻtgan
@@ -49,7 +59,10 @@
   function P(st) { return st.players[st.turn]; }
 
   function cardById(id) {
-    var pools = [PO.DATA.small, PO.DATA.big, PO.DATA.market, PO.DATA.doodad, PO.DATA.fast];
+    var pools = [
+      PO.DATA.small, PO.DATA.big, PO.DATA.market, PO.DATA.doodad, PO.DATA.fast,
+      PO.DATA.events, PO.DATA.ftEvents, PO.DATA.auctionPool,
+    ];
     for (var k = 0; k < pools.length; k++) {
       for (var i = 0; i < pools[k].length; i++) if (pools[k][i].id === id) return pools[k][i];
     }
@@ -111,6 +124,38 @@
       return Math.max(Math.round(((a.full || a.cost) - (a.mortgage || 0)) * 0.5), 0);
     }
     return Math.round((a.cost || 0) * 0.5); // yer
+  }
+
+  // Sof boylik: naqd + barcha aktivlarning (kredit ayrilgan) taxminiy qiymati
+  function netWorth(p) {
+    var s = p.cash - p.bankLoan;
+    for (var i = 0; i < p.liabilities.length; i++) s -= p.liabilities[i].balance;
+    p.assets.forEach(function (a) {
+      if (a.kind === 'stock') s += a.qty * PO.DATA.stocks[a.ticker].base;
+      else if (a.kind === 'omonat') s += a.lots * a.lotPrice;
+      else if (a.kind === 're' || a.kind === 'biz') s += (a.full || a.cost) - (a.mortgage || 0);
+      else s += a.cost || 0;
+    });
+    return s;
+  }
+
+  function grantAch(st, p, id) {
+    if (p.achievements[id]) return;
+    p.achievements[id] = true;
+    var a = PO.DATA.achievements[id];
+    ev(st, { e: 'achievement', p: p.i, id: id });
+    log(st, '🏅 Yutuq: ' + a.emoji + ' «' + a.nom + '» — ' + a.desc, 'good');
+  }
+
+  // Holatga qarab qoʻlga kiritilgan boʻlishi mumkin boʻlgan yutuqlarni tekshiradi (idempotent)
+  function checkAchievements(st, p) {
+    if (p.stats.deals >= 1) grantAch(st, p, 'firstDeal');
+    if (p.assets.length >= 5) grantAch(st, p, 'portfolio5');
+    if (p.assets.length >= 10) grantAch(st, p, 'portfolio10');
+    if (p.escaped) grantAch(st, p, 'escaped');
+    if (netWorth(p) >= C.NETWORTH_MILLIONAIRE) grantAch(st, p, 'millionaire');
+    if (p.stats.charityCount >= 3) grantAch(st, p, 'generous');
+    if (p.stats.wasDownsized && !p.bankrupt && p.skip === 0) grantAch(st, p, 'survivor');
   }
 
   function escapeCheck(st, p) {
@@ -189,7 +234,8 @@
         won: false,
         bankrupt: false,
         months: 0,
-        stats: { deals: 0, doodadSpent: 0, escMonth: 0, charity: 0 },
+        achievements: {},
+        stats: { deals: 0, doodadSpent: 0, escMonth: 0, charity: 0, charityCount: 0, wasDownsized: false },
       });
     }
     buildDeck(st, 'small', PO.DATA.small);
@@ -197,6 +243,9 @@
     buildDeck(st, 'market', PO.DATA.market);
     buildDeck(st, 'doodad', PO.DATA.doodad);
     buildDeck(st, 'fast', PO.DATA.fast);
+    buildDeck(st, 'events', PO.DATA.events);
+    buildDeck(st, 'ftEvents', PO.DATA.ftEvents);
+    buildDeck(st, 'auction', PO.DATA.auctionPool);
     log(st, 'Oʻyin boshlandi! Omad, ' + st.players.map(function (p) { return p.name; }).join(', ') + '!');
     startTurn(st);
     return st;
@@ -242,6 +291,7 @@
   function finishMainPhase(st) {
     // Katak taʼsiri yakunlandi — qarzga botib qolmaganini tekshiramiz
     var p = P(st);
+    checkAchievements(st, p);
     if (p.cash < 0) {
       st.pending = { t: 'insolvent', p: p.i, deficit: -p.cash };
       ev(st, { e: 'insolvent', p: p.i });
@@ -357,6 +407,34 @@
         break;
       }
 
+      case 'event': {
+        var ecard = draw(st, 'events');
+        ev(st, { e: 'card', deck: 'events', id: ecard.id });
+        log(st, '📰 Voqea: ' + ecard.nom);
+        applyEvent(st, p, ecard);
+        st.pending = { t: 'event', p: p.i, cardId: ecard.id };
+        break;
+      }
+
+      case 'shortcut': {
+        var extra = U.randInt(st, C.SHORTCUT_MIN, C.SHORTCUT_MAX);
+        log(st, '⏩ ' + p.name + 'ga tanish-bilish yordam berdi — ' + extra + ' xona oldinga sakradi!', 'good');
+        ev(st, { e: 'shortcut', p: p.i, extra: extra });
+        moveBy(st, extra); // ichki resolveSpace chaqiruvi yangi katak uchun pendingni oʻzi belgilaydi
+        break;
+      }
+
+      case 'gamble': {
+        var stake = Math.min(p.cash, U.clamp(Math.round((p.cash * C.GAMBLE_PCT) / 100000) * 100000, C.GAMBLE_MIN, C.GAMBLE_MAX));
+        st.pending = { t: 'gamble', p: p.i, stake: stake };
+        break;
+      }
+
+      case 'auction': {
+        resolveAuctionSpace(st, p, 'auction');
+        break;
+      }
+
       case 'downsize': {
         // Bir oylik ASOSIY turmush xarajatlari toʻlanadi (banklar «kredit taʼtili» beradi)
         var exp = 0;
@@ -364,6 +442,7 @@
         exp += p.kids * p.perChild;
         p.cash -= exp;
         p.skip = C.DOWNSIZE_SKIP;
+        p.stats.wasDownsized = true;
         ev(st, { e: 'downsize', p: p.i, cost: exp });
         log(st, '📉 Ishdan boʻshatildingiz! Bir oylik turmush xarajati (' + U.fmt(exp) + ') toʻlanadi va 2 navbat oʻtkaziladi. Banklar kredit taʼtili berdi.', 'bad');
         st.pending = { t: 'downsize', p: p.i, cost: exp };
@@ -405,7 +484,111 @@
         st.pending = { t: 'ftLawsuit', p: p.i, cost: pay };
         break;
       }
+
+      case 'ftEvent': {
+        var fecard = draw(st, 'ftEvents');
+        ev(st, { e: 'card', deck: 'ftEvents', id: fecard.id });
+        log(st, '📰 Katta voqea: ' + fecard.nom);
+        applyEvent(st, p, fecard);
+        st.pending = { t: 'event', p: p.i, cardId: fecard.id };
+        break;
+      }
+
+      case 'ftAuction': {
+        resolveAuctionSpace(st, p, 'ftAuction');
+        break;
+      }
     }
+  }
+
+  /* ————— Voqealar ————— */
+
+  function applyEvent(st, p, card) {
+    if (card.kind === 'cashSelf') {
+      p.cash += card.amount;
+      ev(st, { e: 'cash', p: p.i, delta: card.amount });
+      log(st, '📰 ' + card.nom + ': ' + U.fmtSigned(card.amount) + '.', card.amount >= 0 ? 'good' : 'bad');
+    } else if (card.kind === 'cashAll') {
+      st.players.forEach(function (q) {
+        if (q.bankrupt || q.won) return;
+        q.cash += card.amount;
+        ev(st, { e: 'cash', p: q.i, delta: card.amount });
+      });
+      log(st, '📰 ' + card.nom + ': barcha oʻyinchilarga ' + U.fmtSigned(card.amount) + '.', card.amount >= 0 ? 'good' : 'bad');
+    } else if (card.kind === 'bizBoost' || card.kind === 'bizHit') {
+      var pool = p.assets.filter(function (a) { return (a.kind === 're' || a.kind === 'biz') && a.cf > 0; });
+      if (pool.length) {
+        var target = pool[U.randInt(st, 0, pool.length - 1)];
+        target.cf = Math.max(C.BIZ_CF_FLOOR, target.cf + card.amount);
+        log(st, '📰 ' + card.nom + ': «' + target.nom + '» pul oqimi ' + U.fmtSigned(card.amount) + '/oy oʻzgardi.', card.amount >= 0 ? 'good' : 'bad');
+      } else {
+        p.cash += card.fallback;
+        ev(st, { e: 'cash', p: p.i, delta: card.fallback });
+        log(st, '📰 ' + card.nom + ': mos aktiv yoʻq — oʻrniga ' + U.fmtSigned(card.fallback) + ' naqd.', card.fallback >= 0 ? 'good' : 'bad');
+      }
+    } else if (card.kind === 'loanRelief') {
+      if (p.bankLoan > 0) {
+        var relief = Math.min(card.amount, p.bankLoan);
+        p.bankLoan -= relief;
+        log(st, '📰 ' + card.nom + ': bank krediti ' + U.fmt(relief) + ' ga kamaydi.', 'good');
+      } else {
+        p.cash += card.fallback;
+        ev(st, { e: 'cash', p: p.i, delta: card.fallback });
+        log(st, '📰 ' + card.nom + ': kredit yoʻq — oʻrniga ' + U.fmtSigned(card.fallback) + ' naqd.', 'good');
+      }
+    }
+    escapeCheck(st, p);
+  }
+
+  /* ————— Auksion ————— */
+
+  function resolveAuctionSpace(st, p, deckName) {
+    var acard = draw(st, 'auction');
+    ev(st, { e: 'card', deck: 'auction', id: acard.id });
+    var bidders = st.players.filter(function (q) { return !q.bankrupt && !q.won && q.board === p.board; }).map(function (q) { return q.i; });
+    var startIdx = bidders.indexOf(p.i);
+    var order = bidders.slice(startIdx).concat(bidders.slice(0, startIdx));
+    if (order.length < 2) {
+      log(st, '🔨 Auksion: raqobatchi yoʻq — «' + acard.nom + '» oddiy bitim sifatida taklif qilinmoqda.');
+      st.pending = { t: 'deal', p: p.i, cardId: acard.id, deck: 'auction' };
+    } else {
+      var step = Math.max(C.LOAN_STEP, Math.round((acard.cost * C.AUCTION_STEP_PCT) / C.LOAN_STEP) * C.LOAN_STEP);
+      st.pending = {
+        t: 'auction', p: p.i, cardId: acard.id,
+        base: acard.cost, highBid: acard.cost, highBidder: -1,
+        order: order, activeIdx: 0, passed: {}, step: step,
+      };
+      log(st, '🔨 Auksion boshlandi: «' + acard.nom + '» — boshlangʻich narx ' + U.fmt(acard.cost) + '.');
+    }
+  }
+
+  function advanceAuctionTurn(st, pd) {
+    var remaining = pd.order.filter(function (i) { return !pd.passed[i]; });
+    if (remaining.length === 0) { resolveAuction(st, pd, null); return; }
+    if (remaining.length === 1 && remaining[0] === pd.highBidder) { resolveAuction(st, pd, remaining[0]); return; }
+    var n = pd.order.length;
+    for (var k = 1; k <= n; k++) {
+      var idx = (pd.activeIdx + k) % n;
+      if (!pd.passed[pd.order[idx]]) { pd.activeIdx = idx; return; }
+    }
+    resolveAuction(st, pd, remaining.length ? remaining[0] : null);
+  }
+
+  function resolveAuction(st, pd, winnerIdx) {
+    var card = cardById(pd.cardId);
+    if (winnerIdx != null && winnerIdx === pd.highBidder && pd.highBidder >= 0) {
+      var w = st.players[winnerIdx];
+      w.cash -= pd.highBid;
+      w.assets.push({ kind: 'biz', cardId: card.id, nom: card.nom, emoji: card.emoji, cost: pd.highBid, full: pd.highBid, mortgage: 0, cf: card.cf, tags: ['auksion'] });
+      w.stats.deals++;
+      ev(st, { e: 'cash', p: w.i, delta: -pd.highBid });
+      log(st, '🔨 Auksion yakunlandi! ' + w.name + ' «' + card.nom + '»ni ' + U.fmt(pd.highBid) + ' ga yutib oldi.', 'good');
+      grantAch(st, w, 'auctionWinner');
+      escapeCheck(st, w);
+    } else {
+      log(st, '🔨 Auksionda hech kim taklif bermadi — bitim bekor qilindi.');
+    }
+    finishMainPhase(st);
   }
 
   /* ————— Bozor kartalari ————— */
@@ -608,6 +791,8 @@
           if (pd.cur >= pd.offers.length) finishMainPhase(st);
         } else if (pd.t === 'insolvent') {
           throw new Error('Avval qarzni yeching');
+        } else if (pd.t === 'auction') {
+          throw new Error('Auksionda "Taklif" yoki "Voz kechish" ni tanlang');
         } else {
           finishMainPhase(st);
         }
@@ -706,6 +891,7 @@
         p.cash -= pd.cost;
         p.charity = C.CHARITY_TURNS;
         p.stats.charity += pd.cost;
+        p.stats.charityCount++;
         ev(st, { e: 'cash', p: p.i, delta: -pd.cost });
         log(st, '🤲 ' + p.name + ' ' + U.fmt(pd.cost) + ' ehson qildi. Keyingi 3 navbatda 1 yoki 2 shoshqol tanlab tashlaydi!', 'good');
         finishMainPhase(st);
@@ -730,6 +916,51 @@
         log(st, '🚀 ' + p.name + ' yirik biznes oldi: «' + fcard.nom + '» — pul oqimi ' + U.fmtSigned(fcard.cf) + '/oy. Jami yangi oqim: ' + U.fmtShortSum(p.ftExtra) + '/oy.', 'good');
         if (p.ftExtra >= C.FT_WIN_CF) return win(st, p, 'cashflow');
         finishMainPhase(st);
+        break;
+      }
+
+      /* — tavakkalli taklif — */
+      case 'gambleYes': {
+        if (pd.t !== 'gamble') throw new Error('notoʻgʻri holat');
+        if (pd.stake <= 0 || p.cash < pd.stake) throw new Error('Mablagʻ yetarli emas');
+        var won = U.nextRand(st) < 0.5;
+        if (won) {
+          p.cash += pd.stake;
+          ev(st, { e: 'cash', p: p.i, delta: pd.stake });
+          log(st, '🎯 Tavakkal oʻzini oqladi! ' + p.name + ' +' + U.fmt(pd.stake) + ' yutdi.', 'good');
+          grantAch(st, p, 'riskTaker');
+        } else {
+          p.cash -= pd.stake;
+          ev(st, { e: 'cash', p: p.i, delta: -pd.stake });
+          log(st, '🎯 Bu safar omad kulib boqmadi — ' + p.name + ' −' + U.fmt(pd.stake) + ' yoʻqotdi.', 'bad');
+        }
+        finishMainPhase(st);
+        break;
+      }
+      case 'gambleNo':
+        if (pd.t !== 'gamble') throw new Error('notoʻgʻri holat');
+        log(st, p.name + ' tavakkal qilmaslikni afzal koʻrdi — bu ham aqlli qaror!');
+        finishMainPhase(st);
+        break;
+
+      /* — auksion — */
+      case 'auctionBid': {
+        if (pd.t !== 'auction') throw new Error('notoʻgʻri holat');
+        var bidder = st.players[pd.order[pd.activeIdx]];
+        var newBid = pd.highBid + pd.step;
+        if (bidder.cash < newBid) throw new Error('Mablagʻ yetarli emas');
+        pd.highBid = newBid;
+        pd.highBidder = bidder.i;
+        log(st, '🔨 ' + bidder.name + ' taklif qildi: ' + U.fmt(newBid) + '.');
+        advanceAuctionTurn(st, pd);
+        break;
+      }
+      case 'auctionPass': {
+        if (pd.t !== 'auction') throw new Error('notoʻgʻri holat');
+        var passer = st.players[pd.order[pd.activeIdx]];
+        pd.passed[passer.i] = true;
+        log(st, '🔨 ' + passer.name + ' auksiondan chiqdi.');
+        advanceAuctionTurn(st, pd);
         break;
       }
 
@@ -797,8 +1028,8 @@
         break;
 
       case 'ack': {
-        // axborot oynasini yopish: doodad/baby/downsize/market/ftTax/ftLawsuit → endTurn bosqichi
-        if (['doodad', 'baby', 'downsize', 'market', 'ftTax', 'ftLawsuit'].indexOf(pd.t) < 0) throw new Error('notoʻgʻri holat');
+        // axborot oynasini yopish: doodad/baby/downsize/market/ftTax/ftLawsuit/event → endTurn bosqichi
+        if (['doodad', 'baby', 'downsize', 'market', 'ftTax', 'ftLawsuit', 'event'].indexOf(pd.t) < 0) throw new Error('notoʻgʻri holat');
         finishMainPhase(st);
         break;
       }
@@ -819,6 +1050,7 @@
     p.won = true;
     st.over = { type: 'win', winner: p.i, how: how };
     ev(st, { e: 'win', p: p.i, how: how });
+    grantAch(st, p, 'champion');
     var dr = dreamById(p.dreamId);
     log(st, '🏆 ' + p.name + ' GʻOLIB! ' + (how === 'dream' ? 'Orzusi roʻyobga chiqdi: ' + dr.emoji + ' «' + dr.nom + '»!' : 'Tezkor yoʻlda +' + U.fmtShort(p.ftExtra) + ' soʻm/oy yangi pul oqimi yaratdi!'), 'good');
     st.pending = { t: 'gameOver' };
@@ -839,6 +1071,7 @@
       emergencyValue: emergencyValue,
       doodadCost: doodadCost,
       dealNeed: dealNeed,
+      netWorth: netWorth,
     },
     cardById: cardById,
     dreamById: dreamById,

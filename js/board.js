@@ -22,6 +22,12 @@
     ftDream:  { emoji: '⭐', nom: 'Orzu', cls: 'sp-dream' },
     ftTax:    { emoji: '🧾', nom: 'Soliq tekshiruvi', cls: 'sp-downsize' },
     ftLawsuit:{ emoji: '⚖️', nom: 'Sud jarayoni', cls: 'sp-downsize' },
+    event:    { emoji: '📰', nom: 'Voqea', cls: 'sp-event' },
+    ftEvent:  { emoji: '📰', nom: 'Katta voqea', cls: 'sp-event' },
+    shortcut: { emoji: '⏩', nom: 'Tanish-bilish', cls: 'sp-shortcut' },
+    gamble:   { emoji: '🎯', nom: 'Tavakkalli taklif', cls: 'sp-gamble' },
+    auction:  { emoji: '🔨', nom: 'Auksion', cls: 'sp-auction' },
+    ftAuction:{ emoji: '🔨', nom: 'Auksion', cls: 'sp-auction' },
   };
 
   function polar(r, idx, total) {
