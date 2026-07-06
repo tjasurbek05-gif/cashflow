@@ -79,7 +79,9 @@
   function drawRing(name, layout, radius, cell) {
     cellEls[name] = [];
     for (var i = 0; i < layout.length; i++) {
-      var meta = SPACE_META[layout[i]];
+      // Nomaʼlum katak turi (masalan, eski keshdagi fayl bilan moslik boʻlmasa)
+      // butun taxtani yiqitmasin — umumiy koʻrinishga tushiriladi.
+      var meta = SPACE_META[layout[i]] || { emoji: '•', nom: layout[i] || '?', cls: 'sp-deal' };
       var pos = polar(radius, i, layout.length);
       var g = el('g', { class: 'cell ' + meta.cls, transform: 'translate(' + pos.x + ',' + pos.y + ')' }, svg);
       el('rect', { x: -cell / 2, y: -cell / 2, width: cell, height: cell, rx: 14 }, g);

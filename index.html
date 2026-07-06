@@ -6,7 +6,7 @@
   <title>Pul Oqimi — moliyaviy savodxonlik oʻyini</title>
   <meta name="description" content="Pul Oqimi — Oʻzbekiston uchun moliyaviy savodxonlik oʻyini: sichqonlar poygasidan chiqing, aktivlar yigʻing, orzuingizga erishing. Real kasblar, real aksiyalar, real hayot!">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💸</text></svg>">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=3">
 </head>
 <body>
 
@@ -86,16 +86,19 @@
   <div id="turnBanner" class="turn-banner"></div>
   <div id="overlay" class="overlay"></div>
 
-  <script src="js/util.js"></script>
-  <script src="js/data/professions.js"></script>
-  <script src="js/data/stocks.js"></script>
-  <script src="js/data/cards.js"></script>
-  <script src="js/data/tips.js"></script>
-  <script src="js/data/events.js"></script>
-  <script src="js/engine.js"></script>
-  <script src="js/sound.js"></script>
-  <script src="js/board.js"></script>
-  <script src="js/ui.js"></script>
-  <script src="js/main.js"></script>
+  <!-- ?v=N — kesh buzuvchi belgi. Har safar fayllarni yangilab serverga
+       joylaganingizda bu raqamni oshiring (masalan v=4) — shunda brauzer
+       eski keshlangan JS/CSS oʻrniga yangisini yuklaydi. -->
+  <script src="js/util.js?v=3"></script>
+  <script src="js/data/professions.js?v=3"></script>
+  <script src="js/data/stocks.js?v=3"></script>
+  <script src="js/data/cards.js?v=3"></script>
+  <script src="js/data/tips.js?v=3"></script>
+  <script src="js/data/events.js?v=3"></script>
+  <script src="js/engine.js?v=3"></script>
+  <script src="js/sound.js?v=3"></script>
+  <script src="js/board.js?v=3"></script>
+  <script src="js/ui.js?v=3"></script>
+  <script src="js/main.js?v=3"></script>
 </body>
 </html>
